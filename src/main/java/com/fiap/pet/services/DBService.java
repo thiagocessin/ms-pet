@@ -175,15 +175,15 @@ public class DBService {
 		cli1.getTelefones().addAll(Arrays.asList("12345678", "76767667"));
 
 		Cidade cidade1 = cidadeService.find(1);
-		Cidade cidade2 = cidadeService.find(2);
+		//Cidade cidade2 = cidadeService.find(2);
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38383863", cli1, cidade1);
-		Endereco e2 = new Endereco(null, "Av Matos", "105", "Sala 800", "Centro", "45443863", cli1, cidade2);
+		//Endereco e2 = new Endereco(null, "Av Matos", "105", "Sala 800", "Centro", "45443863", cli1, cidade2);
 
-		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli1.getEnderecos().addAll(Arrays.asList(e1));
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		enderecoRepository.saveAll(Arrays.asList(e1));
 
 	}
 

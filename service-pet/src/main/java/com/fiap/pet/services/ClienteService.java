@@ -7,12 +7,16 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.fiap.pet.dto.EmailEnum;
+import com.fiap.pet.dto.RabbitEmailQueueDTO;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.util.Pair;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +43,9 @@ public class ClienteService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private RabbitTemplate rabbit;
 
 	@Autowired
 	private BCryptPasswordEncoder pe;
@@ -100,7 +107,10 @@ public class ClienteService {
 		obj.setId(null);
 		obj = repo.save(obj);
 
+		RabbitEmailQueueDTO emailConf = new RabbitEmailQueueDTO(EmailEnum.EMAIL_CADASTRO, obj.getEmail());
+
 		enderecoRepository.saveAll(obj.getEnderecos());
+		rabbit.convertAndSend(emailConf);
 
 		return obj;
 	}

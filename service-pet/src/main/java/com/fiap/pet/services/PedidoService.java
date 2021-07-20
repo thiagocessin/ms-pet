@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.fiap.pet.dto.EmailEnum;
+import com.fiap.pet.dto.RabbitEmailQueueDTO;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,6 +52,9 @@ public class PedidoService {
 	@Autowired
 	private EmailService emailService;
 
+	@Autowired
+	private RabbitTemplate rabbit;
+
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -92,7 +98,9 @@ public class PedidoService {
 
 		itemPedidoRepository.saveAll(obj.getItens());
 
-		 emailService.sendOrderConfirmationHtmlEmail(obj);
+		RabbitEmailQueueDTO emailConf = new RabbitEmailQueueDTO(EmailEnum.EMAIL_PEDIDO, obj.getCliente().getEmail());
+
+		rabbit.convertAndSend(emailConf);
 
 		return obj;
 	}

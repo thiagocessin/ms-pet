@@ -17,10 +17,12 @@ public class RabbitMQListener {
 
     @RabbitListener(queues="${rabbit.queuename}", containerFactory="jsaFactory")
     public void receivedMessage(RabbitListenerEmailDto message) throws IOException {
+        sgs.setEmailFrom("gabriel.chimenezleme@gmail.com");
+        sgs.setEmailTo(message.getEmailCliente());
+
         if(message.getTipoEmail().equals(EmailEnum.EMAIL_PEDIDO)) {
-            sgs.setEmailFrom("pet@teste.com");
-            sgs.setEmailTo("gabriel.chimenezleme@gmail.com");
-            sgs.setSubject("Email de teste!!");
+            sgs.setSubject("Email de pedido!!");
+            sgs.setContent("Você fez um pedido!!");
             try {
                 sgs.sendEmail();
             } catch (Exception e) {
@@ -28,7 +30,13 @@ public class RabbitMQListener {
             }
         }
         else if(message.getTipoEmail().equals(EmailEnum.EMAIL_CADASTRO)) {
-            //envia email cadastro
+            sgs.setSubject("Email de pedido!!");
+            sgs.setContent("Você se cadastrou!!");
+            try {
+                sgs.sendEmail();
+            } catch (Exception e) {
+                throw e;
+            }
         }
 
     }

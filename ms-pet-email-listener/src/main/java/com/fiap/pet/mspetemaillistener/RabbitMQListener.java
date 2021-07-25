@@ -23,21 +23,16 @@ public class RabbitMQListener {
         if(message.getTipoEmail().equals(EmailEnum.EMAIL_PEDIDO)) {
             sgs.setSubject("Email de pedido!!");
             sgs.setContent("Você fez um pedido!!");
-            try {
-                sgs.sendEmail();
-            } catch (Exception e) {
-                throw e;
-            }
         }
         else if(message.getTipoEmail().equals(EmailEnum.EMAIL_CADASTRO)) {
             sgs.setSubject("Email de pedido!!");
             sgs.setContent("Você se cadastrou!!");
-            try {
-                sgs.sendEmail();
-            } catch (Exception e) {
-                throw e;
-            }
         }
 
+        try {
+            sgs.sendEmail();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

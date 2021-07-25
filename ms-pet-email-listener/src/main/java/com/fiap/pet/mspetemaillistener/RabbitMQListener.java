@@ -25,7 +25,7 @@ public class RabbitMQListener {
             sgs.setContent("Você fez um pedido!!");
         }
         else if(message.getTipoEmail().equals(EmailEnum.EMAIL_CADASTRO)) {
-            sgs.setSubject("Email de pedido!!");
+            sgs.setSubject("Email de cadastro!!");
             sgs.setContent("Você se cadastrou!!");
         }
 

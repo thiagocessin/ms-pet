@@ -11,8 +11,8 @@ import com.fiap.pet.services.EmailService;
 import com.fiap.pet.services.SmtpEmailService;
 
 @Configuration
-@Profile("dev")
-public class DevConfig {
+@Profile("prod")
+public class ProdConfig {
 
 	@Autowired
 	private DBService dbService;

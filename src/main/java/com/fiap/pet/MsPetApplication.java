@@ -1,11 +1,10 @@
 package com.fiap.pet;
 
+import com.fiap.pet.services.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.fiap.pet.services.S3Service;
 
 @SpringBootApplication
 public class MsPetApplication implements CommandLineRunner {
